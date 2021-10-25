@@ -12,4 +12,6 @@
 	<templateProperties value="id=empty_driverlib_project.projectspec.Charger_cpu1"/>
 	<origin value="C:\ti\c2000\C2000Ware_3_04_00_00\driverlib\f2837xd\examples\dual\empty_projects\CCS\empty_driverlib_project.projectspec"/>
 	<filesToOpen value=""/>
+	<connection value="common/targetdb/connections/TIXDS100v2_Connection.xml"/>
+	<isTargetManual value="false"/>
 </projectOptions>

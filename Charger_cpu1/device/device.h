@@ -10,32 +10,32 @@
 // $Copyright:
 // Copyright (C) 2013-2021 Texas Instruments Incorporated - http://www.ti.com/
 //
-// Redistribution and use in source and binary forms, with or without 
-// modification, are permitted provided that the following conditions 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions
 // are met:
-// 
-//   Redistributions of source code must retain the above copyright 
+//
+//   Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
-// 
+//
 //   Redistributions in binary form must reproduce the above copyright
-//   notice, this list of conditions and the following disclaimer in the 
-//   documentation and/or other materials provided with the   
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the
 //   distribution.
-// 
+//
 //   Neither the name of Texas Instruments Incorporated nor the names of
 //   its contributors may be used to endorse or promote products derived
 //   from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
-// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
 // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
 // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // $
 //#############################################################################
@@ -46,12 +46,14 @@
 #include "driverlib.h"
 
 #if (!defined(CPU1) && !defined(CPU2))
-#error "You must define CPU1 or CPU2 in your project properties.  Otherwise, \
+#error \
+    "You must define CPU1 or CPU2 in your project properties.  Otherwise, \
 the offsets in your header files will be inaccurate."
 #endif
 
 #if (defined(CPU1) && defined(CPU2))
-#error "You have defined both CPU1 and CPU2 in your project properties.  Only \
+#error \
+    "You have defined both CPU1 and CPU2 in your project properties.  Only \
 a single CPU should be defined."
 #endif
 
@@ -61,66 +63,123 @@ a single CPU should be defined."
 //
 //*****************************************************************************
 //
-// LEDs
-//
-#ifdef _LAUNCHXL_F28379D
-#define DEVICE_GPIO_PIN_LED1        31U  // GPIO number for LD10
-#define DEVICE_GPIO_PIN_LED2        34U  // GPIO number for LD9
-#define DEVICE_GPIO_CFG_LED1        GPIO_31_GPIO31  // "pinConfig" for LD10
-#define DEVICE_GPIO_CFG_LED2        GPIO_34_GPIO34  // "pinConfig" for LD9
-#else
-#define DEVICE_GPIO_PIN_LED1        31U  // GPIO number for LD2
-#define DEVICE_GPIO_PIN_LED2        34U  // GPIO number for LD3
-#define DEVICE_GPIO_CFG_LED1        GPIO_31_GPIO31  // "pinConfig" for LD2
-#define DEVICE_GPIO_CFG_LED2        GPIO_34_GPIO34  // "pinConfig" for LD3
-#endif
-
 
 //
-// SCI for USB-to-UART adapter on FTDI chip
+// GPIO assignment for CAN-A
 //
-#ifdef _LAUNCHXL_F28379D
-#define DEVICE_GPIO_PIN_SCIRXDA     43U             // GPIO number for SCI RX
-#define DEVICE_GPIO_PIN_SCITXDA     42U             // GPIO number for SCI TX
-#define DEVICE_GPIO_CFG_SCIRXDA     GPIO_43_SCIRXDA // "pinConfig" for SCI RX
-#define DEVICE_GPIO_CFG_SCITXDA     GPIO_42_SCITXDA // "pinConfig" for SCI TX
-#else
-#define DEVICE_GPIO_PIN_SCIRXDA     28U             // GPIO number for SCI RX
-#define DEVICE_GPIO_PIN_SCITXDA     29U             // GPIO number for SCI TX
-#define DEVICE_GPIO_CFG_SCIRXDA     GPIO_28_SCIRXDA // "pinConfig" for SCI RX
-#define DEVICE_GPIO_CFG_SCITXDA     GPIO_29_SCITXDA // "pinConfig" for SCI TX
-#endif
+#define DEVICE_GPIO_CFG_CANRXA GPIO_30_CANRXA  // "pinConfig" for CANA RX
+#define DEVICE_GPIO_CFG_CANTXA GPIO_31_CANTXA  // "pinConfig" for CANA TX
 
 //
-// GPIO assignment for CAN-A and CAN-B
+// GPIO assignment for Relays
 //
-#ifdef _LAUNCHXL_F28379D
-#define DEVICE_GPIO_CFG_CANRXA      GPIO_36_CANRXA  // "pinConfig" for CANA RX
-#define DEVICE_GPIO_CFG_CANTXA      GPIO_37_CANTXA  // "pinConfig" for CANA TX
-#define DEVICE_GPIO_CFG_CANRXB      GPIO_17_CANRXB  // "pinConfig" for CANB RX
-#define DEVICE_GPIO_CFG_CANTXB      GPIO_12_CANTXB  // "pinConfig" for CANB TX
-#else
-#define DEVICE_GPIO_CFG_CANRXA      GPIO_30_CANRXA  // "pinConfig" for CANA RX
-#define DEVICE_GPIO_CFG_CANTXA      GPIO_31_CANTXA  // "pinConfig" for CANA TX
-#define DEVICE_GPIO_CFG_CANRXB      GPIO_10_CANRXB  // "pinConfig" for CANB RX
-#define DEVICE_GPIO_CFG_CANTXB      GPIO_8_CANTXB   // "pinConfig" for CANB TX
 
-//I2CA GPIO pins
-#define DEVICE_GPIO_PIN_SDAA    104
-#define DEVICE_GPIO_PIN_SCLA    105
+// GRID & PRECHARGE Relay Enable Pins
+#define DEVICE_GPIO_PIN_P1RELAY   33U
+#define DEVICE_GPIO_CFG_P1RELAY   GPIO_33_GPIO33
+#define DEVICE_GPIO_PIN_P2RELAY   34U
+#define DEVICE_GPIO_CFG_P2RELAY   GPIO_34_GPIO34
+#define DEVICE_GPIO_PIN_P3RELAY   35U
+#define DEVICE_GPIO_CFG_P3RELAY   GPIO_35_GPIO35
+#define DEVICE_GPIO_PIN_PRECHARGE 32U
+#define DEVICE_GPIO_CFG_PRECHARGE GPIO_32_GPIO32
 
-#define DEVICE_GPIO_CFG_SDAA GPIO_104_SDAA
-#define DEVICE_GPIO_CFG_SCLA GPIO_105_SCLA
+// OUTPUT Relay Enable Pins
+#define DEVICE_GPIO_PIN_AIRP 40U
+#define DEVICE_GPIO_CFG_AIRP GPIO_40_GPIO40
+#define DEVICE_GPIO_PIN_AIRN 41U
+#define DEVICE_GPIO_CFG_AIRN GPIO_41_GPIO41
 
+//
+// GPIO assignment for Hardware Faults
+//
 
-//I2CB GPIO pins
-#define DEVICE_GPIO_PIN_SDAB    40
-#define DEVICE_GPIO_PIN_SCLB    41
+// MCU Fault
+#define DEVICE_GPIO_PIN_MCU_FLT 44U
+#define DEVICE_GPIO_CFG_MCU_FLT GPIO_44_GPIO44
 
-#define DEVICE_GPIO_CFG_SDAB GPIO_40_SDAB
-#define DEVICE_GPIO_CFG_SCLB GPIO_41_SCLB
+// Hardware Fault
+#define DEVICE_GPIO_PIN_HW_FLT 15U
+#define DEVICE_GPIO_CFG_HW_FLT GPIO_15_GPIO15
 
-#endif
+// Hardware Fault Reset
+#define DEVICE_GPIO_PIN_HW_FLT_RESET 88U
+#define DEVICE_GPIO_CFG_HW_FLT_RESET GPIO_88_GPIO88
+
+// AC Over Current
+#define DEVICE_GPIO_PIN_AC_P1_OC 17U
+#define DEVICE_GPIO_CFG_AC_P1_OC GPIO_17_GPIO17
+#define DEVICE_GPIO_PIN_AC_P2_OC 90U
+#define DEVICE_GPIO_CFG_AC_P2_OC GPIO_90_GPIO90
+
+// DC Over Current
+#define DEVICE_GPIO_PIN_DABO_OC  88U
+#define DEVICE_GPIO_CFG_DABO_OC  GPIO_88_GPIO88
+#define DEVICE_GPIO_PIN_DABIN_OC 14U
+#define DEVICE_GPIO_CFG_DABIN_OC GPIO_14_GPIO14
+
+// DC Over Voltage
+#define DEVICE_GPIO_PIN_DC_LINK_OV 92U
+#define DEVICE_GPIO_CFG_DC_LINK_OV GPIO_92_GPIO92
+#define DEVICE_GPIO_PIN_BATT_OV    91U
+#define DEVICE_GPIO_CFG_BATT_OV    GPIO_91_GPIO91
+
+// Active Rectifier Gate Faults
+
+// P1
+#define DEVICE_GPIO_PIN_P1H_FAULT 80U
+#define DEVICE_GPIO_CFG_P1H_FAULT GPIO_80_GPIO80
+#define DEVICE_GPIO_PIN_P1L_FAULT 87U
+#define DEVICE_GPIO_CFG_P1L_FAULT GPIO_87_GPIO87
+
+// P2
+#define DEVICE_GPIO_PIN_P2H_FAULT 81U
+#define DEVICE_GPIO_CFG_P2H_FAULT GPIO_81_GPIO81
+#define DEVICE_GPIO_PIN_P2L_FAULT 86U
+#define DEVICE_GPIO_CFG_P2L_FAULT GPIO_86_GPIO86
+
+// P3
+#define DEVICE_GPIO_PIN_P3H_FAULT 84U
+#define DEVICE_GPIO_CFG_P3H_FAULT GPIO_84_GPIO84
+#define DEVICE_GPIO_PIN_P3L_FAULT 85U
+#define DEVICE_GPIO_CFG_P3L_FAULT GPIO_85_GPIO85
+
+// AR Enable Pin
+#define DEVICE_GPIO_PIN_AR_EN 6U
+#define DEVICE_GPIO_CFG_AR_EN GPIO_6_GPIO6
+
+// AR PWM Pins
+// P1
+#define DEVICE_GPIO_PIN_AR_PWM_P1H 0U
+#define DEVICE_GPIO_CFG_AR_PWM_P1H GPIO_0_EPWM1A
+#define DEVICE_GPIO_PIN_AR_PWM_P1L 1U
+#define DEVICE_GPIO_CFG_AR_PWM_P1L GPIO_1_EPWM1B
+// P2
+#define DEVICE_GPIO_PIN_AR_PWM_P2H 2U
+#define DEVICE_GPIO_CFG_AR_PWM_P2H GPIO_2_EPWM2A
+#define DEVICE_GPIO_PIN_AR_PWM_P2L 3U
+#define DEVICE_GPIO_CFG_AR_PWM_P2L GPIO_3_EPWM2B
+// P3
+#define DEVICE_GPIO_PIN_AR_PWM_P3H 4U
+#define DEVICE_GPIO_CFG_AR_PWM_P3H GPIO_4_EPWM3A
+#define DEVICE_GPIO_PIN_AR_PWM_P3L 5U
+#define DEVICE_GPIO_CFG_AR_PWM_P3L GPIO_5_EPWM3B
+
+//
+// SCI for FTDI
+//
+#define DEVICE_GPIO_PIN_SCITXDD 76U
+#define DEVICE_GPIO_PIN_SCIRXDD 77U
+#define DEVICE_GPIO_CFG_SCITXDD GPIO_76_SCITXDD
+#define DEVICE_GPIO_CFG_SCIRXDD GPIO_77_SCIRXDD
+
+//
+// SCI for JTAG
+//
+#define DEVICE_GPIO_PIN_SCITXDA 29U
+#define DEVICE_GPIO_PIN_SCIRXDA 28U
+#define DEVICE_GPIO_CFG_SCITXDA GPIO_29_SCITXDA
+#define DEVICE_GPIO_CFG_SCIRXDA GPIO_28_SCIRXDA
 
 //*****************************************************************************
 //
@@ -135,21 +194,20 @@ a single CPU should be defined."
 //
 // 10MHz XTAL on LaunchPad. For use with SysCtl_getClock().
 //
-#define DEVICE_OSCSRC_FREQ          10000000U
+#define DEVICE_OSCSRC_FREQ 10000000U
 
 //
 // Define to pass to SysCtl_setClock(). Will configure the clock as follows:
 // PLLSYSCLK = 10MHz (XTAL_OSC) * 40 (IMULT) * 1 (FMULT) / 2 (PLLCLK_BY_2)
 //
-#define DEVICE_SETCLOCK_CFG         (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(40) |  \
-                                     SYSCTL_FMULT_NONE | SYSCTL_SYSDIV(2) |   \
-                                     SYSCTL_PLL_ENABLE)
+#define DEVICE_SETCLOCK_CFG \
+    (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(40) | SYSCTL_FMULT_NONE | SYSCTL_SYSDIV(2) | SYSCTL_PLL_ENABLE)
 
 //
 // 200MHz SYSCLK frequency based on the above DEVICE_SETCLOCK_CFG. Update the
 // code below if a different clock configuration is used!
 //
-#define DEVICE_SYSCLK_FREQ          ((DEVICE_OSCSRC_FREQ * 40 * 1) / 2)
+#define DEVICE_SYSCLK_FREQ ((DEVICE_OSCSRC_FREQ * 40 * 1) / 2)
 
 //
 // ControlCARD Configuration
@@ -159,21 +217,20 @@ a single CPU should be defined."
 //
 // 20MHz XTAL on controlCARD. For use with SysCtl_getClock().
 //
-#define DEVICE_OSCSRC_FREQ          20000000U
+#define DEVICE_OSCSRC_FREQ 20000000U
 
 //
 // Define to pass to SysCtl_setClock(). Will configure the clock as follows:
 // PLLSYSCLK = 20MHz (XTAL_OSC) * 20 (IMULT) * 1 (FMULT) / 2 (PLLCLK_BY_2)
 //
-#define DEVICE_SETCLOCK_CFG         (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(20) |  \
-                                     SYSCTL_FMULT_NONE | SYSCTL_SYSDIV(2) |   \
-                                     SYSCTL_PLL_ENABLE)
+#define DEVICE_SETCLOCK_CFG \
+    (SYSCTL_OSCSRC_XTAL | SYSCTL_IMULT(20) | SYSCTL_FMULT_NONE | SYSCTL_SYSDIV(2) | SYSCTL_PLL_ENABLE)
 
 //
 // 200MHz SYSCLK frequency based on the above DEVICE_SETCLOCK_CFG. Update the
 // code below if a different clock configuration is used!
 //
-#define DEVICE_SYSCLK_FREQ          ((DEVICE_OSCSRC_FREQ * 20 * 1) / 2)
+#define DEVICE_SYSCLK_FREQ ((DEVICE_OSCSRC_FREQ * 20 * 1) / 2)
 
 #endif
 
@@ -182,7 +239,7 @@ a single CPU should be defined."
 // low speed peripheral clock divider of 4. Update the code below if a
 // different LSPCLK divider is used!
 //
-#define DEVICE_LSPCLK_FREQ          (DEVICE_SYSCLK_FREQ / 4)
+#define DEVICE_LSPCLK_FREQ (DEVICE_SYSCLK_FREQ / 4)
 
 //*****************************************************************************
 //
@@ -191,19 +248,19 @@ a single CPU should be defined."
 // by the function. \b x is the number of microseconds to delay.
 //
 //*****************************************************************************
-#define DEVICE_DELAY_US(x) SysCtl_delay(((((long double)(x)) / (1000000.0L /  \
-                              (long double)DEVICE_SYSCLK_FREQ)) - 9.0L) / 5.0L)
+#define DEVICE_DELAY_US(x) \
+    SysCtl_delay(((((long double)(x)) / (1000000.0L / (long double)DEVICE_SYSCLK_FREQ)) - 9.0L) / 5.0L)
 
 //
 // The macros that can be used as parameter to the function Device_bootCPU2
 //
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_PARALLEL                        0x00000000U
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_SCI                             0x00000001U
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_SPI                             0x00000004U
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_I2C                             0x00000005U
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_CAN                             0x00000007U
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_RAM                             0x0000000AU
-#define C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH                           0x0000000BU
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_PARALLEL 0x00000000U
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_SCI      0x00000001U
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_SPI      0x00000004U
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_I2C      0x00000005U
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_CAN      0x00000007U
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_RAM      0x0000000AU
+#define C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH    0x0000000BU
 
 //
 // Other macros that are needed for the Device_bootCPU2 function
@@ -220,8 +277,8 @@ a single CPU should be defined."
 //
 // Macros used as return value by the Device_bootCPU2 function
 //
-#define STATUS_FAIL                 0x0001
-#define STATUS_PASS                 0x0000
+#define STATUS_FAIL 0x0001
+#define STATUS_PASS 0x0000
 
 //*****************************************************************************
 //

@@ -1,0 +1,1 @@
+"./main_cpu2.obj" "./device/F2837xD_CodeStartBranch.obj" "./device/device.obj" "../2837xD_FLASH_lnk_cpu2.cmd" "C:/ti/ccs1040/ccs/eclipse/driverlib/f2837xd/driverlib/ccs/Debug/driverlib.lib" -llibc.a 
