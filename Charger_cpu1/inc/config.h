@@ -7,7 +7,7 @@
  * Sets the falling edge delay on the EPWMs
  * Enter delay in uS
  */
-#define CONFIG_PWM_FED_US 2.5
+#define CONFIG_PWM_FED_US 5  // 2.5
 
 /*
  * Sets the rising edge delay on the EPWMs

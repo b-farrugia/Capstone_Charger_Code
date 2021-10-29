@@ -22,10 +22,13 @@ typedef struct ADC_Measurement_t {
     int AC_P2_OC;
     int DAB_IN_OC;
     int DAB_OUT_OC;
-    int PWRFAULT;
-    int DC_LINK_OV;
-    int BATT_OV;
     int HW_FAULT;
+    int P1H_fault;
+    int P1L_fault;
+    int P2H_fault;
+    int P2L_fault;
+    int P3H_fault;
+    int P3L_fault;
 } ADC_Measurement_t;
 
 static ADC_Measurement_t meas = {0};
@@ -45,15 +48,25 @@ __interrupt void itr_adcConversionComplete(void) {
     meas.AC_P2_OC = GPIO_readPin(DEVICE_GPIO_PIN_AC_P2_OC);
     meas.DAB_IN_OC = GPIO_readPin(DEVICE_GPIO_PIN_DABIN_OC);
     meas.DAB_OUT_OC = GPIO_readPin(DEVICE_GPIO_PIN_DABO_OC);
-    meas.PWRFAULT = GPIO_readPin(DEVICE_GPIO_PIN_P1H_FAULT);
-    meas.DC_LINK_OV = GPIO_readPin(DEVICE_GPIO_PIN_DC_LINK_OV);
-    meas.BATT_OV = GPIO_readPin(DEVICE_GPIO_PIN_BATT_OV);
     meas.HW_FAULT = GPIO_readPin(DEVICE_GPIO_PIN_HW_FLT);
-    GPIO_writePin(DEVICE_GPIO_PIN_MCU_FLT, 1);
+    meas.P1H_fault = GPIO_readPin(DEVICE_GPIO_PIN_P1H_FAULT);
+    meas.P1L_fault = GPIO_readPin(DEVICE_GPIO_PIN_P1L_FAULT);
+    meas.P2H_fault = GPIO_readPin(DEVICE_GPIO_PIN_P2H_FAULT);
+    meas.P2L_fault = GPIO_readPin(DEVICE_GPIO_PIN_P2L_FAULT);
+    meas.P3H_fault = GPIO_readPin(DEVICE_GPIO_PIN_P3H_FAULT);
+    meas.P3L_fault = GPIO_readPin(DEVICE_GPIO_PIN_P3L_FAULT);
+
+    //    if (DEVICE_GPIO_PIN_HW_FLT_RESET == 0) {
+    //        GPIO_writePin(DEVICE_GPIO_PIN_HW_FLT_RESET, 1);
+    //        DEVICE_DELAY_US(1000000);
+    //    } else {
+    //        GPIO_writePin(DEVICE_GPIO_PIN_HW_FLT_RESET, 0);
+    //        DEVICE_DELAY_US(1000000);
+    //    }
 
     EPWM_setCounterCompareValue(EPWM1_BASE, EPWM_COUNTER_COMPARE_A, ModDepth_to_ComparatorRef(0.25));
     EPWM_setCounterCompareValue(EPWM2_BASE, EPWM_COUNTER_COMPARE_A, ModDepth_to_ComparatorRef(0.25));
-    EPWM_setCounterCompareValue(EPWM3_BASE, EPWM_COUNTER_COMPARE_A, ModDepth_to_ComparatorRef(0));
+    EPWM_setCounterCompareValue(EPWM3_BASE, EPWM_COUNTER_COMPARE_A, ModDepth_to_ComparatorRef(0.25));
 }
 
 __interrupt void itr_sample(void) {
